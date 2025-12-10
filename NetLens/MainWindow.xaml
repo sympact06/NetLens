@@ -12,23 +12,136 @@
     <Grid Padding="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <!-- Header -->
         <StackPanel Grid.Row="0" Spacing="10" Margin="0,0,0,20">
             <TextBlock Text="NetLens - Modern Windows Network Scanner" 
                        Style="{StaticResource TitleTextBlockStyle}"/>
-            <Button x:Name="RunTestScanButton" 
-                    Content="Run Test Scan" 
-                    Click="OnRunTestScanClick"
-                    HorizontalAlignment="Left"/>
+            <TextBlock Text="Phase 3: Banner Grabbing &amp; JSON Export" 
+                       Style="{StaticResource SubtitleTextBlockStyle}"
+                       Foreground="{ThemeResource SystemAccentColor}"/>
         </StackPanel>
 
-        <ScrollViewer Grid.Row="1">
-            <TextBlock x:Name="ResultsTextBlock" 
-                       TextWrapping="Wrap" 
-                       FontFamily="Consolas"
-                       Text="No scan results available. Click 'Run Test Scan' to start."/>
-        </ScrollViewer>
+        <!-- Configuration -->
+        <StackPanel Grid.Row="1" Spacing="12" Margin="0,0,0,20">
+            <TextBlock Text="Scan Configuration" 
+                       Style="{StaticResource SubtitleTextBlockStyle}"
+                       FontWeight="SemiBold"/>
+            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0" Text="Start IP:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <TextBox x:Name="StartIpTextBox" 
+                         Grid.Column="1" 
+                         Text="192.168.0.1"
+                         PlaceholderText="e.g., 192.168.0.1"/>
+                
+                <TextBlock Grid.Column="3" Text="End IP:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <TextBox x:Name="EndIpTextBox" 
+                         Grid.Column="4" 
+                         Text="192.168.0.254"
+                         PlaceholderText="e.g., 192.168.0.254"/>
+            </Grid>
+            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0" Text="Ports:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <TextBox x:Name="PortsTextBox" 
+                         Grid.Column="1" 
+                         Text="22,80,443,445,3389,8080"
+                         PlaceholderText="Comma-separated, e.g., 22,80,443"/>
+            </Grid>
+            
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <Button x:Name="RunScanButton" 
+                        Content="Run Network Scan" 
+                        Click="OnRunScanClick"
+                        MinWidth="150"
+                        Style="{StaticResource AccentButtonStyle}"/>
+                <Button x:Name="ExportJsonButton" 
+                        Content="Export to JSON" 
+                        Click="OnExportJsonClick"
+                        IsEnabled="False"
+                        MinWidth="150"/>
+            </StackPanel>
+            
+            <TextBlock Text="⚠ Note: This will perform real TCP connections and banner grabbing on your network" 
+                       Style="{StaticResource CaptionTextBlockStyle}"
+                       Foreground="{ThemeResource SystemFillColorCautionBrush}"/>
+        </StackPanel>
+
+        <!-- Progress Section -->
+        <StackPanel Grid.Row="2" Spacing="8" Margin="0,0,0,20">
+            <TextBlock x:Name="StatusTextBlock" 
+                       Text="" 
+                       Style="{StaticResource BodyTextBlockStyle}"
+                       Foreground="{ThemeResource SystemAccentColor}"/>
+            <ProgressBar x:Name="ScanProgressBar" 
+                         Visibility="Collapsed"
+                         IsIndeterminate="False"
+                         Height="4"/>
+        </StackPanel>
+
+        <!-- Summary -->
+        <Border Grid.Row="3" 
+                Padding="12" 
+                Margin="0,0,0,10"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="4"
+                Visibility="Collapsed"
+                x:Name="SummaryBorder">
+            <StackPanel Spacing="8">
+                <TextBlock Text="Scan Summary" FontWeight="SemiBold"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock x:Name="TotalHostsText" Text="Total Hosts: 0" Style="{StaticResource CaptionTextBlockStyle}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock x:Name="AliveHostsText" Text="Alive: 0" Style="{StaticResource CaptionTextBlockStyle}" Foreground="Green"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2">
+                        <TextBlock x:Name="DeadHostsText" Text="Down: 0" Style="{StaticResource CaptionTextBlockStyle}" Foreground="Gray"/>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- Results -->
+        <Border Grid.Row="4" 
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="4"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+            <ScrollViewer Padding="12">
+                <TextBlock x:Name="ResultsTextBlock" 
+                           TextWrapping="Wrap" 
+                           FontFamily="Consolas"
+                           FontSize="12"
+                           Text="No scan results available. Configure your scan and click 'Run Network Scan' to start."/>
+            </ScrollViewer>
+        </Border>
     </Grid>
 </Window>

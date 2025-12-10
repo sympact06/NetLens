@@ -8,6 +8,8 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <atomic>
+#include <mutex>
 #include <netlens/Scanner.h>
 #include <netlens/ScanResult.h>
 
@@ -23,22 +25,40 @@ namespace NetLens::ViewModels
         ~MainViewModel();
 
         /// <summary>
-        /// Executes a test scan with hard-coded settings (Phase 0).
+        /// Executes a scan asynchronously with user-provided configuration.
         /// </summary>
-        void RunTestScan();
+        /// <param name="startIp">Starting IP address</param>
+        /// <param name="endIp">Ending IP address</param>
+        /// <param name="ports">Vector of ports to scan</param>
+        /// <param name="progressCallback">Callback for progress updates</param>
+        /// <param name="completionCallback">Callback when scan completes</param>
+        void RunScanAsync(
+            const std::string& startIp,
+            const std::string& endIp,
+            const std::vector<uint16_t>& ports,
+            std::function<void(size_t current, size_t total, const std::string& status)> progressCallback,
+            std::function<void()> completionCallback
+        );
 
         /// <summary>
-        /// Gets the current scan result.
+        /// Gets the current scan result (thread-safe).
         /// </summary>
-        const netlens::ScanResult& GetScanResult() const { return m_scanResult; }
+        netlens::ScanResult GetScanResult() const;
 
         /// <summary>
         /// Gets a formatted string representation of the scan results for display.
         /// </summary>
         std::wstring GetFormattedResults() const;
 
+        /// <summary>
+        /// Checks if a scan is currently running.
+        /// </summary>
+        bool IsScanRunning() const { return m_isScanning.load(); }
+
     private:
         std::unique_ptr<netlens::Scanner> m_scanner;
         netlens::ScanResult m_scanResult;
+        mutable std::mutex m_resultMutex;
+        std::atomic<bool> m_isScanning;
     };
 }

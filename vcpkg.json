@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "name": "netlens",
+  "version": "0.3.0",
+  "description": "Modern Windows Network Scanner",
+  "homepage": "https://github.com/sympact06/NetLens",
+  "license": "AGPL-3.0",
+  "builtin-baseline": "3426db05b996481ca31e95fff3734cf23e0f51bc",
+  "dependencies": [
+    "asio",
+    "nlohmann-json"
+  ]
+}

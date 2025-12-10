@@ -29,9 +29,27 @@
     <ClInclude Include="include\netlens\ScanSettings.h">
       <Filter>Header Files\netlens</Filter>
     </ClInclude>
+    <ClInclude Include="src\IpRange.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TcpScanner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AsyncScanEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Scanner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IpRange.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TcpScanner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AsyncScanEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

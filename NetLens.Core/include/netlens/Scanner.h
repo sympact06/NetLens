@@ -7,12 +7,35 @@
 
 #include "ScanSettings.h"
 #include "ScanResult.h"
+#include <functional>
 
 namespace netlens {
 
 /// <summary>
+/// Progress information for an ongoing scan.
+/// </summary>
+struct ScanProgress {
+    size_t total_hosts;
+    size_t completed_hosts;
+    std::string current_ip;
+    size_t total_ports;
+    size_t completed_ports;
+
+    ScanProgress()
+        : total_hosts(0)
+        , completed_hosts(0)
+        , current_ip()
+        , total_ports(0)
+        , completed_ports(0) {}
+};
+
+/// <summary>
+/// Callback function type for scan progress updates.
+/// </summary>
+using ProgressCallback = std::function<void(const ScanProgress&)>;
+
+/// <summary>
 /// Main scanner class responsible for executing network scans.
-/// Phase 0: Returns placeholder/dummy data only.
 /// </summary>
 class Scanner {
 public:
@@ -28,11 +51,18 @@ public:
 
     /// <summary>
     /// Performs a network scan based on the provided settings.
-    /// Phase 0: Returns hard-coded placeholder data.
     /// </summary>
     /// <param name="settings">Scan configuration settings.</param>
-    /// <returns>Scan results containing placeholder data.</returns>
+    /// <returns>Scan results.</returns>
     ScanResult scan(const ScanSettings& settings);
+
+    /// <summary>
+    /// Performs a network scan with progress reporting.
+    /// </summary>
+    /// <param name="settings">Scan configuration settings.</param>
+    /// <param name="progressCallback">Callback for progress updates.</param>
+    /// <returns>Scan results.</returns>
+    ScanResult scan(const ScanSettings& settings, ProgressCallback progressCallback);
 };
 
 } // namespace netlens

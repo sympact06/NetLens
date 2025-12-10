@@ -4,35 +4,46 @@
 // See the LICENSE file in the project root for details.
 
 #include "netlens/Scanner.h"
+#include "AsyncScanEngine.h"
+#include "IpRange.h"
+#include <stdexcept>
 
 namespace netlens {
 
 Scanner::Scanner() {
-    // Phase 0: No initialization needed
+    // Constructor
 }
 
 Scanner::~Scanner() {
-    // Phase 0: No cleanup needed
+    // Destructor
 }
 
 ScanResult Scanner::scan(const ScanSettings& settings) {
-    // Phase 0: Return hard-coded placeholder data
-    ScanResult result(settings);
+    // Call overload with null progress callback
+    return scan(settings, nullptr);
+}
 
-    // Create a dummy host result
-    HostResult host1("192.168.1.100", true);
-    host1.ports.push_back(PortResult(80, true, "HTTP"));
-    host1.ports.push_back(PortResult(443, true, "HTTPS"));
-    host1.ports.push_back(PortResult(22, false));
+ScanResult Scanner::scan(const ScanSettings& settings, ProgressCallback progressCallback) {
+    // Validate settings
+    if (settings.start_ip.empty() || settings.end_ip.empty()) {
+        throw std::invalid_argument("Start IP and End IP must be provided");
+    }
 
-    HostResult host2("192.168.1.101", true);
-    host2.ports.push_back(PortResult(3389, true, "RDP"));
-    host2.ports.push_back(PortResult(445, true, "SMB"));
+    if (settings.ports.empty()) {
+        throw std::invalid_argument("At least one port must be specified");
+    }
 
-    result.hosts.push_back(host1);
-    result.hosts.push_back(host2);
+    if (!internal::IpRange::isValid(settings.start_ip)) {
+        throw std::invalid_argument("Invalid start IP address: " + settings.start_ip);
+    }
 
-    return result;
+    if (!internal::IpRange::isValid(settings.end_ip)) {
+        throw std::invalid_argument("Invalid end IP address: " + settings.end_ip);
+    }
+
+    // Create async scan engine and execute scan
+    internal::AsyncScanEngine engine;
+    return engine.executeScan(settings, progressCallback);
 }
 
 } // namespace netlens

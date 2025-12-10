@@ -21,12 +21,21 @@ namespace winrt::NetLens::implementation
         MainWindow();
         ~MainWindow(); // Destructor must be defined in .cpp where MainViewModel is complete
 
-        void OnRunTestScanClick(winrt::Windows::Foundation::IInspectable const& sender, 
-                                winrt::Microsoft::UI::Xaml::RoutedEventArgs const& args);
+        void OnRunScanClick(winrt::Windows::Foundation::IInspectable const& sender, 
+                            winrt::Microsoft::UI::Xaml::RoutedEventArgs const& args);
+        
+        void OnExportJsonClick(winrt::Windows::Foundation::IInspectable const& sender, 
+                               winrt::Microsoft::UI::Xaml::RoutedEventArgs const& args);
 
     private:
         std::unique_ptr<::NetLens::ViewModels::MainViewModel> m_viewModel;
+        winrt::Microsoft::UI::Dispatching::DispatcherQueue m_dispatcherQueue{ nullptr };
+        
         void UpdateResultsDisplay();
+        void UpdateSummary();
+        void UpdateProgress(size_t current, size_t total, const std::string& status);
+        void OnScanComplete();
+        bool ValidateInputs(std::string& startIp, std::string& endIp, std::vector<uint16_t>& ports);
     };
 }
 

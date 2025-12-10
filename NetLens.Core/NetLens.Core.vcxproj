@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -58,7 +58,7 @@
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\asio-asio-1-30-2\asio\include;$(SolutionDir)external;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -75,7 +75,7 @@
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\asio-asio-1-30-2\asio\include;$(SolutionDir)external;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -91,9 +91,16 @@
     <ClInclude Include="include\netlens\ScanResult.h" />
     <ClInclude Include="include\netlens\Scanner.h" />
     <ClInclude Include="include\netlens\ScanSettings.h" />
+    <ClInclude Include="src\BannerGrabber.h" />
+    <ClInclude Include="include\netlens\JsonExporter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Scanner.cpp" />
+    <ClCompile Include="src\BannerGrabber.cpp" />
+    <ClCompile Include="src\JsonExporter.cpp" />
+    <ClCompile Include="src\AsyncScanEngine.cpp" />
+    <ClCompile Include="src\IpRange.cpp" />
+    <ClCompile Include="src\TcpScanner.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
