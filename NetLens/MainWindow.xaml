@@ -7,9 +7,28 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Title="NetLens">
+    Title="NetLens - Network Scanner">
 
-    <Grid>
+    <Grid Padding="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
+        <StackPanel Grid.Row="0" Spacing="10" Margin="0,0,0,20">
+            <TextBlock Text="NetLens - Modern Windows Network Scanner" 
+                       Style="{StaticResource TitleTextBlockStyle}"/>
+            <Button x:Name="RunTestScanButton" 
+                    Content="Run Test Scan" 
+                    Click="OnRunTestScanClick"
+                    HorizontalAlignment="Left"/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1">
+            <TextBlock x:Name="ResultsTextBlock" 
+                       TextWrapping="Wrap" 
+                       FontFamily="Consolas"
+                       Text="No scan results available. Click 'Run Test Scan' to start."/>
+        </ScrollViewer>
     </Grid>
 </Window>

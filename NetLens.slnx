@@ -4,6 +4,9 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
+  <Project Path="NetLens.Core/NetLens.Core.vcxproj">
+    <Platform Project="x64" />
+  </Project>
   <Project Path="NetLens/NetLens.vcxproj">
     <Deploy />
   </Project>
